@@ -2,7 +2,7 @@
 
 from typing import TextIO
 
-def calc_dist(f: TextIO) -> int:
+def calc_dist_and_sim(f: TextIO) -> int:
 
     left_col = []
     right_col = []
@@ -11,7 +11,10 @@ def calc_dist(f: TextIO) -> int:
         nums = line.strip().split()
         left_col.append(int(nums[0]))
         right_col.append(int(nums[1]))
-        sum += abs(left_col[i] - right_col[i])
+
+    sim = 0
+    for i in range(len(left_col)):
+        sim += right_col.count(left_col[i]) * left_col[i]
 
     left_col.sort()
     right_col.sort()
@@ -20,14 +23,14 @@ def calc_dist(f: TextIO) -> int:
     for i in range(len(left_col)):
         dist += abs(left_col[i] - right_col[i])
 
-    return dist
+    return dist, sim
 
 
 if __name__ == "__main__":
 
     try:
-        with open("../sample/sample01.txt", "r") as f:
-            dist = calc_dist(f)
-        print(dist)
+        with open("../input/input01.txt", "r") as f:
+            dist, sim = calc_dist_and_sim(f)
+        print(dist, sim)
     except Exception as e:
         print(f"An error of type {type(e).__name__} occurred: {e}")
