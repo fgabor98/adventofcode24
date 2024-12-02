@@ -1,21 +1,33 @@
 #!/usr/bin/python3
 
-f = open("input01.txt", "r")
-col1 = []
-col2 = []
+from typing import TextIO
 
-for line in f:
-    nums = line.strip().split()
-    col1.append(int(nums[0]))
-    col2.append(int(nums[1]))
+def calc_dist(f: TextIO) -> int:
 
-col1.sort()
-col2.sort()
+    left_col = []
+    right_col = []
 
-sum = 0
-for i in range(len(col1)):
-    sum += abs(col1[i] - col2[i])
+    for line in f:
+        nums = line.strip().split()
+        left_col.append(int(nums[0]))
+        right_col.append(int(nums[1]))
+        sum += abs(left_col[i] - right_col[i])
 
-print(sum)
+    left_col.sort()
+    right_col.sort()
 
-f.close()
+    dist = 0
+    for i in range(len(left_col)):
+        dist += abs(left_col[i] - right_col[i])
+
+    return dist
+
+
+if __name__ == "__main__":
+
+    try:
+        with open("../sample/sample01.txt", "r") as f:
+            dist = calc_dist(f)
+        print(dist)
+    except Exception as e:
+        print(f"An error of type {type(e).__name__} occurred: {e}")
